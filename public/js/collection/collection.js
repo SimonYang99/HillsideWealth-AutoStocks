@@ -235,6 +235,9 @@ function column_builder(){
 
         { data : "OwnerCashEarning_LFY", type : "any-number" },
         { data : "OwnerCashEarningsYield", type : "any-number" },
+        { data : "OwnerCashRoe", type : "any-number" },
+        { data : "cagr", type : "any-number" },
+        { data : "debt_to_equity", type : "any-number" },
         { data : "stockdata.0.fcfYield", type : "any-number" },
         { data : "stockdata.0.fcfMultiple", type : "any-number" },
         { data : "npvoutput.fvMultiple", type : "any-number" },

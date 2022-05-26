@@ -369,6 +369,32 @@ function format_data(stock) {
      stock.OwnerCashEarning_LFY = 0
     }
 
+    try{
+        let t = 3
+        let Vbegin = (cNaI(Number(stock.stockdata[t].operating_cash_flow))
+        + cNaI(Number(stock.stockdata[t].purchase_of_ppe))
+        + cNaI(Number(stock.stockdata[t].sales_of_ppe))
+        + cNaI(Number(stock.stockdata[t].other_financing))
+        + cNaI(Number(stock.stockdata[t].net_intangibles_purchase_and_sale))
+        - cNaI(Number(stock.stockdata[t].stock_based_compensation))).toFixed(2)
+        let ans = Math.pow(Number(stock.OwnerCashEarning_LFY) / Vbegin, 1/t) - 1
+        stock.cagr = ans === 0 || isNaN(ans) === true ? "N/A" : (ans * 100).toFixed(2) + "%"
+    }
+    catch(err){
+        stock.cagr = "N/A"
+    }
+
+    try{
+        let ownercashroe = ((Number(stock.OwnerCashEarning_LFY) / Number(stock.stockdata[1].total_stockholder_equity)) * 100)
+        stock.OwnerCashRoe = ownercashroe != 0 ? ownercashroe.toFixed(2) + "%" : "N/A"
+        let debt_to_equity = (Number(stock.stockdata[1].st_debt_lease_obligations) + Number(stock.stockdata[1].lt_debt_lease_obligations))/Number(stock.stockdata[1].total_stockholder_equity)
+        stock.debt_to_equity = debt_to_equity != 0 ? debt_to_equity.toFixed(2) : "N/A"
+    }
+    catch (error){
+        stock.OwnerCashRoe = "N/A"
+        stock.debt_to_equity = "N/A"
+    }
+
     // Calculates metric growth rates
     try {
         const end_date = stock.stockdata[0].date.getFullYear(),
